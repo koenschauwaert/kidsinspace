@@ -1,4 +1,29 @@
 <resources>
     <string name="app_name">Kids_in_Space</string>
     <string name="title_activity_arcapture">ARCaptureActivity</string>
+
+    <string name="menu_contAutofocus_error_on">Autofocus On</string>
+    <string name="menu_contAutofocus_error_off">Autofocus Off</string>
+    <string name="menu_flash_error_on">Flash On</string>
+    <string name="menu_flash_error_off">Flash Off</string>
+    <string name="menu_camera">Camera hoi</string>
+    <string name="menu_camera_front">Camera Front</string>
+    <string name="menu_camera_back">Camera Back</string>
+    <string name="menu_datasets">DATASETS</string>
+    <string name="menu_back">menu_back</string>
+    <string name="menu_extended_tracking">menu_extended_tracking</string>
+    <string name="menu_contAutofocus">menu_contAutofocus</string>
+    <string name="menu_flash">menu_flash</string>
+    <string name="INIT_ERROR">INIT_ERROR</string>
+    <string name="button_OK">button_OK</string>
+    <string name="INIT_ERROR_DEVICE_NOT_SUPPORTED">INIT_ERROR_DEVICE_NOT_SUPPORTED</string>
+    <string name="INIT_ERROR_NO_CAMERA_ACCESS">INIT_ERROR_NO_CAMERA_ACCESS</string>
+    <string name="INIT_LICENSE_ERROR_MISSING_KEY">INIT_LICENSE_ERROR_MISSING_KEY</string>
+    <string name="INIT_LICENSE_ERROR_INVALID_KEY">INIT_LICENSE_ERROR_INVALID_KEY</string>
+    <string name="INIT_LICENSE_ERROR_NO_NETWORK_TRANSIENT">INIT_LICENSE_ERROR_NO_NETWORK_TRANSIENT</string>
+    <string name="INIT_LICENSE_ERROR_NO_NETWORK_PERMANENT">INIT_LICENSE_ERROR_NO_NETWORK_PERMANENT</string>
+    <string name="INIT_LICENSE_ERROR_CANCELED_KEY">INIT_LICENSE_ERROR_CANCELED_KEY</string>
+    <string name="INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH">INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH</string>
+    <string name="INIT_LICENSE_ERROR_UNKNOWN_ERROR">INIT_LICENSE_ERROR_UNKNOWN_ERROR</string>
+
 </resources>

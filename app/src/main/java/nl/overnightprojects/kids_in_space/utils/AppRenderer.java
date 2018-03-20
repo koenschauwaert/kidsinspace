@@ -33,7 +33,7 @@ import com.vuforia.ViewList;
 
 public class AppRenderer {
 
-    private static final String LOGTAG = "SampleAppRenderer";
+    private static final String LOGTAG = "AppRenderer";
 
     private RenderingPrimitives mRenderingPrimitives = null;
     private AppRendererControl mRenderingInterface = null;

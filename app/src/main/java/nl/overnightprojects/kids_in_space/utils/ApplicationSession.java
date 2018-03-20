@@ -15,6 +15,8 @@ import com.vuforia.INIT_FLAGS;
 import com.vuforia.State;
 import com.vuforia.Vuforia;
 
+import nl.overnightprojects.kids_in_space.R;
+
 /**
  * Created by koen_ on 2-3-2018.
  */
@@ -22,7 +24,7 @@ import com.vuforia.Vuforia;
 public class ApplicationSession implements Vuforia.UpdateCallbackInterface
 {
 
-    private static final String LOGTAG = "SampleAppSession";
+    private static final String LOGTAG = "ApplicationSession";
 
     // Reference to the current activity
     private Activity mActivity;
@@ -363,6 +365,7 @@ public class ApplicationSession implements Vuforia.UpdateCallbackInterface
             // Prevent the onDestroy() method to overlap with initialization:
             synchronized (mLifecycleLock)
             {
+                String x = nl.overnightprojects.kids_in_space.R.drawable.licencekey;
                 Vuforia.setInitParameters(mActivity, mVuforiaFlags, "AXKMYuT/////AAAAmZv5J2d61kEandXZa+8GQ7AZVaE/Ll8f7gUKtM7Sf1D6LYgpUUMM6f+xeqHd2wLHCBdPUizcydtaJkHlbV/o4/1vuCfsNPzsNwxtzA0IO0eDdHr65rdTaAwrFZAFMSEuE1K4bIQDItINqQyUrWRus9/I/bD+W/2kupl9qD+mgfsDe8ec29/FfHXajVH1ZPD/gEaYvBzb99MXXqbEL3OlkXx97Nnt/6kPJkjvCXtKLTHnMhhF1e5NLC3wgCvL6isolXUltOznw29G/Dv+D3B5ZLnLhSfY/OH+wX8UKn8hPRdZAG8gHlNs278VC6ZrSa9fJ+Yu1wzwQs2CSF8oVyOVc+ujCqZyu6cu+kN4quCJ5j0c");
 
                 do

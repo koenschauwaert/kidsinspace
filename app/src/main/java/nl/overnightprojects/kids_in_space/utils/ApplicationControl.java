@@ -41,4 +41,6 @@ public interface ApplicationControl
 
     // This callback is called once Vuforia has been started
     void onVuforiaStarted();
+
+    boolean menuProcess(int command);
 }
