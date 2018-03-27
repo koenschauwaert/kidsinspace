@@ -28,16 +28,16 @@ import com.vuforia.Trackable;
 import com.vuforia.TrackableResult;
 import com.vuforia.Vuforia;
 
-import nl.overnightprojects.kids_in_space.ImageTargets.ImageTargets;
-import nl.overnightprojects.kids_in_space.utils.AppRenderer;
-import nl.overnightprojects.kids_in_space.utils.AppRendererControl;
-import nl.overnightprojects.kids_in_space.utils.Application3DModel;
-import nl.overnightprojects.kids_in_space.utils.ApplicationSession;
-import nl.overnightprojects.kids_in_space.utils.CubeShaders;
-import nl.overnightprojects.kids_in_space.utils.LoadingDialogHandler;
-import nl.overnightprojects.kids_in_space.utils.Teapot;
-import nl.overnightprojects.kids_in_space.utils.Texture;
-import nl.overnightprojects.kids_in_space.utils.Utils;
+import nl.overnightprojects.kids_in_space.Objects.DemoTest;
+import nl.overnightprojects.kids_in_space.Objects.Teapot;
+import nl.overnightprojects.kids_in_space.Utils.AppRenderer;
+import nl.overnightprojects.kids_in_space.Utils.AppRendererControl;
+import nl.overnightprojects.kids_in_space.Utils.Application3DModel;
+import nl.overnightprojects.kids_in_space.Utils.ApplicationSession;
+import nl.overnightprojects.kids_in_space.Utils.CubeShaders;
+import nl.overnightprojects.kids_in_space.Utils.LoadingDialogHandler;
+import nl.overnightprojects.kids_in_space.Utils.Texture;
+import nl.overnightprojects.kids_in_space.Utils.Utils;
 
 // The renderer class for the ImageTargets sample. 
 public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererControl
@@ -56,7 +56,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
     
-    private Teapot mTeapot;
+    private DemoTest mTeapot;
     
     private float kBuildingScale = 0.012f;
     private Application3DModel mBuildingsModel;
@@ -160,7 +160,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
             "texSampler2D");
 
         if(!mModelIsLoaded) {
-            mTeapot = new Teapot();
+            mTeapot = new DemoTest();
 
             try {
                 mBuildingsModel = new Application3DModel();

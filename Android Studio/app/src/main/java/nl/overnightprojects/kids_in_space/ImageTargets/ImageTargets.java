@@ -45,15 +45,15 @@ import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
 
 import nl.overnightprojects.kids_in_space.R;
-import nl.overnightprojects.kids_in_space.utils.AppMenu;
-import nl.overnightprojects.kids_in_space.utils.AppMenuGroup;
-import nl.overnightprojects.kids_in_space.utils.AppMenuInterface;
-import nl.overnightprojects.kids_in_space.utils.ApplicationControl;
-import nl.overnightprojects.kids_in_space.utils.ApplicationException;
-import nl.overnightprojects.kids_in_space.utils.ApplicationGLView;
-import nl.overnightprojects.kids_in_space.utils.ApplicationSession;
-import nl.overnightprojects.kids_in_space.utils.LoadingDialogHandler;
-import nl.overnightprojects.kids_in_space.utils.Texture;
+import nl.overnightprojects.kids_in_space.Utils.AppMenu;
+import nl.overnightprojects.kids_in_space.Utils.AppMenuGroup;
+import nl.overnightprojects.kids_in_space.Utils.AppMenuInterface;
+import nl.overnightprojects.kids_in_space.Utils.ApplicationControl;
+import nl.overnightprojects.kids_in_space.Utils.ApplicationException;
+import nl.overnightprojects.kids_in_space.Utils.ApplicationGLView;
+import nl.overnightprojects.kids_in_space.Utils.ApplicationSession;
+import nl.overnightprojects.kids_in_space.Utils.LoadingDialogHandler;
+import nl.overnightprojects.kids_in_space.Utils.Texture;
 
 public class ImageTargets extends Activity implements ApplicationControl,
         AppMenuInterface
@@ -110,8 +110,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
         vuforiaAppSession = new ApplicationSession(this);
         
         startLoadingAnimation();
-        mDatasetStrings.add("StonesAndChips.xml");
-        mDatasetStrings.add("Tarmac.xml");
+        mDatasetStrings.add("marker001.xml");
         
         vuforiaAppSession
             .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -470,7 +469,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
             mUILayout.setBackgroundColor(Color.TRANSPARENT);
             
             vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
-            
+
             mAppMenu = new AppMenu(this, this, "Image Targets",
                 mGlView, mUILayout, null);
             setAppMenuSettings();
@@ -639,7 +638,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
     private void setAppMenuSettings()
     {
         AppMenuGroup group;
-        
+
         group = mAppMenu.addGroup("", false);
         group.addTextItem(getString(R.string.menu_back), -1);
         
@@ -650,7 +649,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
             CMD_AUTOFOCUS, mContAutofocus);
         mFlashOptionView = group.addSelectionItem(
             getString(R.string.menu_flash), CMD_FLASH, false);
-        
+
         CameraInfo ci = new CameraInfo();
         boolean deviceHasFrontCamera = false;
         boolean deviceHasBackCamera = false;

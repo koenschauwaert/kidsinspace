@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<nl.overnightprojects.kids_in_space.utils.AppMenuView
+<nl.overnightprojects.kids_in_space.Utils.AppMenuView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0000"
     >
-    
+
 	<ScrollView
 	    android:background="#FFF"
 	    android:layout_width="match_parent"
@@ -36,4 +36,4 @@
 	     </LinearLayout>
 	</ScrollView>
 
-</nl.overnightprojects.kids_in_space.utils.AppMenuView>
+</nl.overnightprojects.kids_in_space.Utils.AppMenuView>
