@@ -6,8 +6,8 @@ android {
         applicationId "nl.overnightprojects.kids_in_space"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 1
-        versionName "0.01a"
+        versionCode 3
+        versionName "0.03b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
