@@ -110,8 +110,9 @@ public class ImageTargets extends Activity implements ApplicationControl,
         vuforiaAppSession = new ApplicationSession(this);
         
         startLoadingAnimation();
-        mDatasetStrings.add("marker001.xml");
-        
+        mDatasetStrings.add("markers.xml");
+        //mDatasetStrings.add("marker002.xml");
+
         vuforiaAppSession
             .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
@@ -187,7 +188,9 @@ public class ImageTargets extends Activity implements ApplicationControl,
 
         mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
                 getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
+        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
                 getAssets()));
     }
     
@@ -613,7 +616,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
         return result;
     }
     
-    
+    /*
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -623,6 +626,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
         
         return mGestureDetector.onTouchEvent(event);
     }
+    */
     
     
     public boolean isExtendedTrackingActive()

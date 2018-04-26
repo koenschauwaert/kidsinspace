@@ -6,8 +6,8 @@ android {
         applicationId "nl.overnightprojects.kids_in_space"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 3
-        versionName "0.03b"
+        versionCode 4
+        versionName "0.04b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -21,7 +21,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
     testImplementation 'junit:junit:4.12'
@@ -36,7 +36,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
     }
 }
 
