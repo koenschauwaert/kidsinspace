@@ -29,7 +29,6 @@ import com.vuforia.TrackableResult;
 import com.vuforia.Vuforia;
 
 import nl.overnightprojects.kids_in_space.Objects.DemoTest;
-import nl.overnightprojects.kids_in_space.Objects.Teapot;
 import nl.overnightprojects.kids_in_space.Utils.AppRenderer;
 import nl.overnightprojects.kids_in_space.Utils.AppRendererControl;
 import nl.overnightprojects.kids_in_space.Utils.Application3DModel;

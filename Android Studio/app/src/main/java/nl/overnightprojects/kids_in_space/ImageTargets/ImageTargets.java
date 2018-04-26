@@ -111,6 +111,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
         
         startLoadingAnimation();
         mDatasetStrings.add("markers.xml");
+        //mDatasetStrings.add("marker001.xml");
         //mDatasetStrings.add("marker002.xml");
 
         vuforiaAppSession
