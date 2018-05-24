@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="artifacts:viro_core">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/app-viro_core-release.aar/52f55a662cc1086e35621872d793dfd1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/app-viro_core-release.aar/52f55a662cc1086e35621872d793dfd1/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

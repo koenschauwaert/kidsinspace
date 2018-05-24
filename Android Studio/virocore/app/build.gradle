@@ -4,12 +4,12 @@ android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "com.example.virosample"
-        applicationIdSuffix ".arcore"
+        applicationId "nl.overnightprojects.kids_in_space"
+        //applicationIdSuffix ".arcore"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "0.08b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi-v7a", "x86", "armeabi", "mips"
@@ -17,7 +17,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -30,25 +30,25 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-database:11.0.4'
+    implementation 'com.android.support:support-annotations:27.1.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.google.android.exoplayer:exoplayer:r2.2.0'
+    implementation 'com.google.firebase:firebase-database:15.0.0'
     testCompile 'junit:junit:4.12'
     compile project(':gvr_common')
     compile project(':arcore_client')
     compile project(':viro_core')
-    compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'
-    compile 'com.amazonaws:aws-android-sdk-core:2.2.22'
-    compile 'com.amazonaws:aws-android-sdk-ddb:2.2.22'
-    compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.2.22'
-    compile 'com.amazonaws:aws-android-sdk-cognito:2.2.22'
-    compile 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.2.22'
+    implementation 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.2.22'
+    implementation 'com.amazonaws:aws-android-sdk-ddb:2.2.22'
+    implementation 'com.amazonaws:aws-android-sdk-ddb-mapper:2.2.22'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.2.22'
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.2.22'
 }
-
 
 apply plugin: 'com.google.gms.google-services'

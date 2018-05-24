@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="artifacts:gvr_common">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-common-1.101.0.aar/cef67a1a87bef2fb208eb103791f8e80/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/sdk-common-1.101.0.aar/cef67a1a87bef2fb208eb103791f8e80/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

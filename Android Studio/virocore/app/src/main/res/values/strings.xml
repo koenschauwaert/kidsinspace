@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Kids in Space</string>
+
+    <string name="mainActivityTitle">Are you a student or a teacher?</string>
+
+    <string name="buttonStudent">I\'m a student</string>
+    <string name="buttonTeacher">I\'m a teacher</string>
+    <string name="buttonDemo">I want a demo</string>
+    <string name="title_activity_teacher_login">Log in - Teacher</string>
+    <string name="title_activity_student_login">Log in - Student</string>
+
+    <!-- Strings related to login -->
+    <string name="loginStudentActivityTitle">Enter the code to connect</string>
+    <string name="loginTeacherActivityTitle">Enter the teacher\'s code and marker number to connect</string>
+    <string name="hint_code">12345</string>
+    <string name="hint_teacher_code">Unique teacher code</string>
+    <string name="hint_marker_code">Marker code</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="action_log_in_short">Log in</string>
+    <string name="action_sign_up_short">Sign up</string>
+    <string name="action_connect_short">Connect</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
 </resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nl.overnightprojects.kids_in_space.MainActivity"
+    android:background="@drawable/color_main_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title_text"
+            android:padding="@dimen/button_padding_large"
+            android:layout_margin="@dimen/margin_large"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="@string/mainActivityTitle"/>
+
+        <Button
+            android:id="@+id/btnStudent"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/button_text"
+            android:padding="@dimen/button_padding_large"
+            android:layout_margin="@dimen/margin_large"
+            android:layout_gravity="center"
+            android:background="@color/colorButtonStudent"
+            android:textColor="@color/white"
+            android:text="@string/buttonStudent"/>
+
+        <Button
+            android:id="@+id/btnTeacher"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/button_text"
+            android:padding="@dimen/button_padding_large"
+            android:layout_margin="@dimen/margin_large"
+            android:layout_gravity="center"
+            android:background="@color/colorButtonTeacher"
+            android:textColor="@color/white"
+            android:text="@string/buttonTeacher"/>
+
+        <!--
+        <Button
+            android:id="@+id/btnDemo"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:padding="@dimen/button_padding_large"
+            android:layout_margin="@dimen/margin_large"
+            android:background="@color/colorButtonDemo"
+            android:text="@string/buttonDemo"/>
+            -->
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -28,7 +28,9 @@ import com.vuforia.Trackable;
 import com.vuforia.TrackableResult;
 import com.vuforia.Vuforia;
 
+import nl.overnightprojects.kids_in_space.Objects.Box;
 import nl.overnightprojects.kids_in_space.Objects.DemoTest;
+import nl.overnightprojects.kids_in_space.Objects.Ruler;
 import nl.overnightprojects.kids_in_space.Utils.AppRenderer;
 import nl.overnightprojects.kids_in_space.Utils.AppRendererControl;
 import nl.overnightprojects.kids_in_space.Utils.Application3DModel;
@@ -55,7 +57,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
     
-    private DemoTest mTeapot;
+    private Box mTeapot;
     
     private float kBuildingScale = 0.012f;
     private Application3DModel mBuildingsModel;
@@ -159,7 +161,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
             "texSampler2D");
 
         if(!mModelIsLoaded) {
-            mTeapot = new DemoTest();
+            mTeapot = new Box();
 
             try {
                 mBuildingsModel = new Application3DModel();
