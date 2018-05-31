@@ -28,8 +28,11 @@
             android:name=".ImageTargets.ImageTargets"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".SplashScreenActivity"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".SplashScreenActivity" />
+        <activity android:name=".StudentLoginActivity" />
+        <activity android:name=".TeacherLoginActivity" />
+        <activity android:name=".DemoActivity"></activity>
     </application>
 
 </manifest>

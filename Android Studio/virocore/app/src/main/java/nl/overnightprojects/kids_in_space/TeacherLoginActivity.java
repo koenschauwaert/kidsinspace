@@ -46,7 +46,7 @@ public class TeacherLoginActivity extends Activity{
 
     private void initFireBase(){
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("CurrentMarker");
+        databaseReference = firebaseDatabase.getReference("Code");
     }
 
     private void checkTeacherCodeWithFireBase(){

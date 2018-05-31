@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".StudentLoginActivity">
+
+    <include layout="@layout/planets_background"/>
+
+    <TextView
+        android:id="@+id/tv_student_login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text"
+        android:padding="@dimen/button_padding_large"
+        android:layout_margin="@dimen/margin_normal"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/loginStudentActivityTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/et_student_code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_student_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text"
+        android:padding="@dimen/button_padding_large"
+        android:layout_margin="@dimen/margin_normal"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/yellow"
+        android:inputType="number"
+        android:maxLines="1"
+        android:maxLength="5"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_student_login_title"
+        app:layout_constraintBottom_toTopOf="@id/btn_student_connect"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_student_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_connect_short"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        android:background="@drawable/button"
+        android:layout_marginBottom="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@id/btn_student"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

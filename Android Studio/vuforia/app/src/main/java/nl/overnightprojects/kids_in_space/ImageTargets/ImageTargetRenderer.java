@@ -10,15 +10,22 @@ countries.
 package nl.overnightprojects.kids_in_space.ImageTargets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.vuforia.Device;
 import com.vuforia.Matrix44F;
@@ -29,14 +36,14 @@ import com.vuforia.TrackableResult;
 import com.vuforia.Vuforia;
 
 import nl.overnightprojects.kids_in_space.Objects.Box;
-import nl.overnightprojects.kids_in_space.Objects.DemoTest;
-import nl.overnightprojects.kids_in_space.Objects.Ruler;
+import nl.overnightprojects.kids_in_space.Objects.Teapot;
 import nl.overnightprojects.kids_in_space.Utils.AppRenderer;
 import nl.overnightprojects.kids_in_space.Utils.AppRendererControl;
 import nl.overnightprojects.kids_in_space.Utils.Application3DModel;
 import nl.overnightprojects.kids_in_space.Utils.ApplicationSession;
 import nl.overnightprojects.kids_in_space.Utils.CubeShaders;
 import nl.overnightprojects.kids_in_space.Utils.LoadingDialogHandler;
+import nl.overnightprojects.kids_in_space.Utils.MeshObject;
 import nl.overnightprojects.kids_in_space.Utils.Texture;
 import nl.overnightprojects.kids_in_space.Utils.Utils;
 
@@ -44,6 +51,8 @@ import nl.overnightprojects.kids_in_space.Utils.Utils;
 public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererControl
 {
     private static final String LOGTAG = "ImageTargetRenderer";
+
+    private int markerID;
     
     private ApplicationSession vuforiaAppSession;
     private ImageTargets mActivity;
@@ -57,7 +66,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
     
-    private Box mTeapot;
+    private Box mBox;
+    private Teapot mTeapot;
     
     private float kBuildingScale = 0.012f;
     private Application3DModel mBuildingsModel;
@@ -67,11 +77,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
     
     private static final float OBJECT_SCALE_FLOAT = 0.003f;
     
-    
-    public ImageTargetRenderer(ImageTargets activity, ApplicationSession session)
+    public ImageTargetRenderer(ImageTargets activity, ApplicationSession session, int id)
     {
         mActivity = activity;
         vuforiaAppSession = session;
+        markerID = id;
         // SampleAppRenderer used to encapsulate the use of RenderingPrimitives setting
         // the device mode AR/VR and stereo mode
         mSampleAppRenderer = new AppRenderer(this, mActivity, Device.MODE.MODE_AR, false, 0.01f , 5f);
@@ -161,7 +171,13 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
             "texSampler2D");
 
         if(!mModelIsLoaded) {
-            mTeapot = new Box();
+            Log.d("!mModelIsLoaded", "" + markerID);
+            if(markerID == 0){
+                mTeapot = new Teapot();
+            }
+            else{
+                mBox = new Box();
+            }
 
             try {
                 mBuildingsModel = new Application3DModel();
@@ -232,10 +248,20 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
             GLES20.glUseProgram(shaderProgramID);
 
             if (!mActivity.isExtendedTrackingActive()) {
-                GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                        false, 0, mTeapot.getVertices());
-                GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                        GLES20.GL_FLOAT, false, 0, mTeapot.getTexCoords());
+                switch(markerID){
+                    case 0:
+                        GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                                false, 0, mTeapot.getVertices());
+                        GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                                GLES20.GL_FLOAT, false, 0, mTeapot.getTexCoords());
+                        break;
+                    case 1:
+                        GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                                false, 0, mBox.getVertices());
+                        GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                                GLES20.GL_FLOAT, false, 0, mBox.getTexCoords());
+                        break;
+                }
 
                 GLES20.glEnableVertexAttribArray(vertexHandle);
                 GLES20.glEnableVertexAttribArray(textureCoordHandle);
@@ -250,14 +276,25 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
                 GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
                         modelViewProjection, 0);
 
-                // finally draw the teapot
-                GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-                        mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-                        mTeapot.getIndices());
+                // finally draw the object
+                switch(markerID){
+                    case 0:
+                        GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+                                mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                                mTeapot.getIndices());
+                        break;
+                    case 1:
+                        GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+                                mBox.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                                mBox.getIndices());
+                        break;
+                }
 
                 // disable the enabled arrays
                 GLES20.glDisableVertexAttribArray(vertexHandle);
                 GLES20.glDisableVertexAttribArray(textureCoordHandle);
+
+
             } else {
                 GLES20.glDisable(GLES20.GL_CULL_FACE);
                 GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,

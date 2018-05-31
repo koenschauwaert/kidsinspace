@@ -11,11 +11,15 @@ countries.
 package nl.overnightprojects.kids_in_space.ImageTargets;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Vector;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -34,6 +38,12 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
 import com.vuforia.ObjectTracker;
@@ -44,6 +54,7 @@ import com.vuforia.Tracker;
 import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
 
+import nl.overnightprojects.kids_in_space.MainActivity;
 import nl.overnightprojects.kids_in_space.R;
 import nl.overnightprojects.kids_in_space.Utils.AppMenu;
 import nl.overnightprojects.kids_in_space.Utils.AppMenuGroup;
@@ -61,6 +72,8 @@ public class ImageTargets extends Activity implements ApplicationControl,
     private static final String LOGTAG = "ImageTargets";
     
     ApplicationSession vuforiaAppSession;
+
+    private int markerID, oldMarkerID = 0;
     
     private DataSet mCurrentDataset;
     private int mCurrentDatasetSelectionIndex = 0;
@@ -78,7 +91,8 @@ public class ImageTargets extends Activity implements ApplicationControl,
     
     // The textures we will use for rendering:
     private Vector<Texture> mTextures;
-    
+
+    private boolean cameFromDemo = false;
     private boolean mSwitchDatasetAsap = false;
     private boolean mFlash = false;
     private boolean mContAutofocus = true;
@@ -97,8 +111,13 @@ public class ImageTargets extends Activity implements ApplicationControl,
     private AlertDialog mErrorDialog;
     
     boolean mIsDroidDevice = false;
-    
-    
+
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase firebaseDatabase;
+
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
+
     // Called when the activity first starts or the user navigates back to an
     // activity.
     @Override
@@ -106,13 +125,36 @@ public class ImageTargets extends Activity implements ApplicationControl,
     {
         Log.d(LOGTAG, "onCreate");
         super.onCreate(savedInstanceState);
+        //FirebaseApp.initializeApp(this);
         
         vuforiaAppSession = new ApplicationSession(this);
-        
+
+        settings = getSharedPreferences("preferences",
+                Context.MODE_PRIVATE);
+        settings.getInt("oldMarkerID", oldMarkerID);
+        settings.getInt("markerID", markerID);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras !=null)
+        {
+            cameFromDemo = extras.getBoolean("cameFromDemo");
+        }
+
+        if(!cameFromDemo) {
+            initFireBase();
+        }
+
         startLoadingAnimation();
-        mDatasetStrings.add("markers.xml");
+        mDatasetStrings.add("kidsinspace.xml");
         //mDatasetStrings.add("marker001.xml");
-        //mDatasetStrings.add("marker002.xml");
+        //mDatasetStrings.add("marker002.xml"); YOU CAN ADD MULTIPLE
+
+        if(!cameFromDemo) {
+            compareMarkerFireBase();
+        }
+        else{
+            markerID = 0;
+        }
 
         vuforiaAppSession
             .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -126,6 +168,72 @@ public class ImageTargets extends Activity implements ApplicationControl,
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
             "droid");
         
+    }
+
+    private void initFireBase() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+    }
+
+    private void compareMarkerFireBase(){
+        databaseReference = firebaseDatabase.getReference("CurrentMarker");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String id = dataSnapshot.child("NR").getValue(String.class);
+                markerID = Integer.parseInt(id);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void restartActivity(){
+
+        //initApplicationAR();
+
+
+
+        /*
+        try
+        {
+            vuforiaAppSession.stopAR();
+        } catch (ApplicationException e)
+        {
+            Log.e(LOGTAG, e.getString());
+        }
+
+        // Unload texture:
+        mTextures.clear();
+        mTextures = null;
+
+        vuforiaAppSession = new ApplicationSession(this);
+
+        startLoadingAnimation();
+
+        vuforiaAppSession
+                .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        //mGestureDetector = new GestureDetector(this, new GestureListener());
+
+        // Load any sample specific textures:
+        mTextures = new Vector<Texture>();
+        loadTextures();
+
+        mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
+                "droid");
+        //Intent i = new Intent(ImageTargets.this, ImageTargets.class);
+        //finish();
+        //startActivity(i);
+        */
+
+        Intent i = new Intent(ImageTargets.this, MainActivity.class);
+        i.putExtra("restartAR", true);
+        finish();
+        startActivity(i);
+
     }
     
     // Process Single Tap event to trigger autofocus
@@ -187,6 +295,18 @@ public class ImageTargets extends Activity implements ApplicationControl,
         //mTextures.add(Texture.loadTextureFromApk("ImageTargets/Buildings.jpeg",
         //    getAssets()));
 
+        mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
+                getAssets()));
         mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
                 getAssets()));
         mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
@@ -271,7 +391,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
         {
             Log.e(LOGTAG, e.getString());
         }
-        
+
         // Unload texture:
         mTextures.clear();
         mTextures = null;
@@ -291,7 +411,7 @@ public class ImageTargets extends Activity implements ApplicationControl,
         mGlView = new ApplicationGLView(this);
         mGlView.init(translucent, depthSize, stencilSize);
 
-        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession);
+        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, markerID);
         mRenderer.setTextures(mTextures);
         mGlView.setRenderer(mRenderer);
     }
