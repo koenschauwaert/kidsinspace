@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".TeacherRegisterActivity">
+
+    <include layout="@layout/fog_background"
+        android:id="@+id/i_fog_background"/>
+
+    <include layout="@layout/planets_background_still"
+        android:id="@+id/i_planets_background_still"/>
+
+    <include layout="@layout/satellite_background"
+        android:id="@+id/i_satellite_background"/>
+
+    <include layout="@layout/asteroids_background"
+        android:id="@+id/i_asteroids_background"/>
+
+    <TextView
+        android:id="@+id/tv_teacher_register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text"
+        android:layout_margin="@dimen/margin_normal"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/registerTeacherActivityTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/et_teacher_register_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_teacher_register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text"
+        android:layout_margin="@dimen/margin_normal"
+        android:gravity="center"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorHint="@color/white_transparent"
+        android:hint="@string/hint_teacher_email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_teacher_register_title"
+        app:layout_constraintBottom_toTopOf="@id/et_teacher_register_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_teacher_register_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text"
+        android:layout_margin="@dimen/margin_normal"
+        android:gravity="center"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorHint="@color/white_transparent"
+        android:hint="@string/hint_teacher_password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/et_teacher_register_email"
+        app:layout_constraintBottom_toTopOf="@id/et_teacher_register_code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_teacher_register_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text"
+        android:layout_margin="@dimen/margin_normal"
+        android:gravity="center"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorHint="@color/white_transparent"
+        android:hint="@string/hint_teacher_code"
+        android:inputType="textCapCharacters"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/et_teacher_register_password"
+        app:layout_constraintBottom_toTopOf="@id/btn_teacher_register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_teacher_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_connect_short"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        android:background="@drawable/button"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:layout_constraintTop_toBottomOf="@id/et_teacher_register_code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

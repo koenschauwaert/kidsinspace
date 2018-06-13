@@ -29,9 +29,20 @@
     <!-- Strings related to login -->
     <string name="loginTeacherActivityTitle">Teacher login</string>
     <string name="loginStudentActivityTitle">Enter code</string>
+    <string name="registerTeacherActivityTitle">Teacher register</string>
+    <string name="goToTeacherRegisterActivity"><u>Register instead</u></string>
+    <string name="controlTeacherActivityTitle">Control room</string>
+    <string name="marker_01">Ellion</string>
+    <string name="marker_02">Earth</string>
+    <string name="marker_03">Moon</string>
+    <string name="marker_04">Rocket</string>
+    <string name="marker_05">Moon base</string>
+    <string name="marker_06">Mars</string>
     <string name="demoActivityTitle">Demo time!</string>
+    <string name="blackActivityButton">START</string>
     <string name="hint_teacher_email">Email</string>
     <string name="hint_teacher_password">Password</string>
+    <string name="hint_teacher_code">1234ABCD</string>
     <string name="action_log_in_short">Log in</string>
     <string name="action_sign_up_short">Sign up</string>
     <string name="action_connect_short">Connect</string>

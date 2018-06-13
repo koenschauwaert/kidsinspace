@@ -11,9 +11,3 @@ Contains RAW files (.psd + .jpg + .png) for the markers + a readme on 'how to ma
 
 /Shirts/
 Contains RAW files (.psd) for the front and back of our sweaters
-
-/SplashScreen/
-Contains RAW files (.png + .psd) for a animated .GIF boot (splashscreen) logo
-
-/Textures/
-Contains RAW files for the textures for our 3D objects

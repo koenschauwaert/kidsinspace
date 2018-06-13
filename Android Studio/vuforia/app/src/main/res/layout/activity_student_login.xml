@@ -7,7 +7,17 @@
     android:background="@color/colorPrimary"
     tools:context=".StudentLoginActivity">
 
-    <include layout="@layout/planets_background"/>
+    <include layout="@layout/fog_background"
+        android:id="@+id/i_fog_background"/>
+
+    <include layout="@layout/planets_background_still"
+        android:id="@+id/i_planets_background_still"/>
+
+    <include layout="@layout/satellite_background"
+        android:id="@+id/i_satellite_background"/>
+
+    <include layout="@layout/asteroids_background"
+        android:id="@+id/i_asteroids_background"/>
 
     <TextView
         android:id="@+id/tv_student_login_title"
@@ -26,14 +36,17 @@
 
     <EditText
         android:id="@+id/et_student_code"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/title_text"
         android:padding="@dimen/button_padding_large"
         android:layout_margin="@dimen/margin_normal"
         android:gravity="center"
+        android:backgroundTint="@color/white"
         android:textColor="@color/white"
-        android:textColorHighlight="@color/yellow"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorHint="@color/white_transparent"
+        android:hint="12345"
         android:inputType="number"
         android:maxLines="1"
         android:maxLength="5"

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".BlackActivity">
+
+    <include layout="@layout/fog_background"
+        android:id="@+id/i_fog_background"/>
+
+    <include layout="@layout/planets_background_still"
+        android:id="@+id/i_planets_background_still"/>
+
+    <include layout="@layout/satellite_background"
+        android:id="@+id/i_satellite_background"/>
+
+    <include layout="@layout/asteroids_background"
+        android:id="@+id/i_asteroids_background"/>
+
+    <Button
+        android:id="@+id/btn_start_AR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/blackActivityButton"
+        android:textColor="@color/white"
+        android:textSize="@dimen/button_text"
+        android:background="@drawable/button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

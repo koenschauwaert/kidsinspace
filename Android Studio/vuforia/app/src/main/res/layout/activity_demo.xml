@@ -7,7 +7,17 @@
     android:background="@color/colorPrimary"
     tools:context=".DemoActivity">
 
-    <include layout="@layout/planets_background"/>
+    <include layout="@layout/fog_background"
+        android:id="@+id/i_fog_background"/>
+
+    <include layout="@layout/planets_background_still"
+        android:id="@+id/i_planets_background_still"/>
+
+    <include layout="@layout/satellite_background"
+        android:id="@+id/i_satellite_background"/>
+
+    <include layout="@layout/asteroids_background"
+        android:id="@+id/i_asteroids_background"/>
 
     <TextView
         android:id="@+id/tv_demo_title"
@@ -20,34 +30,48 @@
         android:textColor="@color/white"
         android:text="@string/demoActivityTitle"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_demo_download"
+        app:layout_constraintBottom_toTopOf="@id/tv_demo_subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/btn_demo_download"
+    <TextView
+        android:id="@+id/tv_demo_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/action_connect_short"
+        android:textSize="@dimen/title_text"
+        android:padding="@dimen/button_padding_large"
+        android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="32dp"
-        android:background="@drawable/button"
-        android:layout_marginBottom="@dimen/margin_large"
+        android:text="Download the marker to print or show in phone or tablet"
         app:layout_constraintTop_toBottomOf="@id/tv_demo_title"
-        app:layout_constraintBottom_toTopOf="@id/btn_demo_connect"
+        app:layout_constraintBottom_toTopOf="@id/btn_demo_get_marker"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/btn_demo_connect"
+        android:id="@+id/btn_demo_get_marker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/action_connect_short"
+        android:text="GET MARKER"
         android:textColor="@color/white"
         android:textSize="32dp"
         android:background="@drawable/button"
-        android:layout_marginBottom="@dimen/margin_large"
-        app:layout_constraintTop_toBottomOf="@id/btn_demo_download"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:layout_constraintTop_toBottomOf="@id/tv_demo_subtitle"
+        app:layout_constraintBottom_toTopOf="@id/btn_demo_start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_demo_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="START DEMO"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        android:background="@drawable/button"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:layout_constraintTop_toBottomOf="@id/btn_demo_get_marker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

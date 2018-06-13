@@ -18,16 +18,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -38,7 +39,6 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,7 +54,6 @@ import com.vuforia.Tracker;
 import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
 
-import nl.overnightprojects.kids_in_space.MainActivity;
 import nl.overnightprojects.kids_in_space.R;
 import nl.overnightprojects.kids_in_space.Utils.AppMenu;
 import nl.overnightprojects.kids_in_space.Utils.AppMenuGroup;
@@ -66,6 +65,9 @@ import nl.overnightprojects.kids_in_space.Utils.ApplicationSession;
 import nl.overnightprojects.kids_in_space.Utils.LoadingDialogHandler;
 import nl.overnightprojects.kids_in_space.Utils.Texture;
 
+import static nl.overnightprojects.kids_in_space.MainActivity.musicVolumeDivider;
+import static nl.overnightprojects.kids_in_space.MainActivity.vibeLength;
+
 public class ImageTargets extends Activity implements ApplicationControl,
         AppMenuInterface
 {
@@ -73,14 +75,17 @@ public class ImageTargets extends Activity implements ApplicationControl,
     
     ApplicationSession vuforiaAppSession;
 
-    private int markerID, oldMarkerID = 0;
+    private int markerID;
+    private int index = 1;
     
     private DataSet mCurrentDataset;
     private int mCurrentDatasetSelectionIndex = 0;
     private int mStartDatasetsIndex = 0;
     private int mDatasetsNumber = 0;
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
-    
+
+    private String[] textures = {"planet_mercury_texture.jpg", "planet_venus_texture.jpg", "planet_earth_texture.jpg", "planet_moon_texture.jpg", "planet_mars_texture.jpg", "planet_jupiter_texture.jpg", "planet_saturn_texture.jpg", "planet_uranus_texture.jpg", "planet_neptune_texture.jpg"};
+
     // Our OpenGL view:
     private ApplicationGLView mGlView;
     
@@ -97,6 +102,8 @@ public class ImageTargets extends Activity implements ApplicationControl,
     private boolean mFlash = false;
     private boolean mContAutofocus = true;
     private boolean mExtendedTracking = false;
+
+    private String markerIDString;
 
     private View mFocusOptionView;
     private View mFlashOptionView;
@@ -115,8 +122,10 @@ public class ImageTargets extends Activity implements ApplicationControl,
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
 
-    private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
+    private MediaPlayer click_mediaPlayer;
+    private AudioManager audioManager;
+
+    private Vibrator vibe;
 
     // Called when the activity first starts or the user navigates back to an
     // activity.
@@ -125,62 +134,80 @@ public class ImageTargets extends Activity implements ApplicationControl,
     {
         Log.d(LOGTAG, "onCreate");
         super.onCreate(savedInstanceState);
-        //FirebaseApp.initializeApp(this);
-        
-        vuforiaAppSession = new ApplicationSession(this);
 
-        settings = getSharedPreferences("preferences",
-                Context.MODE_PRIVATE);
-        settings.getInt("oldMarkerID", oldMarkerID);
-        settings.getInt("markerID", markerID);
+        vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        prepSound();
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
         {
             cameFromDemo = extras.getBoolean("cameFromDemo");
+            markerIDString = extras.getString("markerID");
         }
 
-        if(!cameFromDemo) {
-            initFireBase();
-        }
+        initFireBase();
+        getCodeContinuousFromFireBase(markerIDString);
+
+        vuforiaAppSession = new ApplicationSession(this);
 
         startLoadingAnimation();
         mDatasetStrings.add("kidsinspace.xml");
         //mDatasetStrings.add("marker001.xml");
         //mDatasetStrings.add("marker002.xml"); YOU CAN ADD MULTIPLE
 
-        if(!cameFromDemo) {
-            compareMarkerFireBase();
-        }
-        else{
-            markerID = 0;
-        }
-
         vuforiaAppSession
-            .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        
+                .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         mGestureDetector = new GestureDetector(this, new GestureListener());
-        
+
         // Load any sample specific textures:
         mTextures = new Vector<Texture>();
-        loadTextures();
-        
+
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
-            "droid");
-        
+                "droid");
+    }
+
+    private void prepSound(){
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        click_mediaPlayer = MediaPlayer.create(this, R.raw.pop);
+
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume/ musicVolumeDivider, 0);
+
+        click_mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        click_mediaPlayer.setLooping(false);
     }
 
     private void initFireBase() {
         firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
-    private void compareMarkerFireBase(){
+    private void getCodeContinuousFromFireBase(final String oldID){
         databaseReference = firebaseDatabase.getReference("CurrentMarker");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String id = dataSnapshot.child("NR").getValue(String.class);
+
+                // CHECK IF CAME FROM DEMO, IF SO, DON'T GET DATA FROM FIREBASE AND USE DATA FROM BUNDLE.GETINTENT.GETEXTRA
+                String id = oldID;
+                if(!cameFromDemo) {
+                    id = dataSnapshot.child("NR").getValue(String.class);
+                }
                 markerID = Integer.parseInt(id);
+                //Toast.makeText(ImageTargets.this, "ID: " + markerID, Toast.LENGTH_SHORT).show();
+
+                if(!Objects.equals(id, oldID)) {
+                    finish();
+                }
+                else if(markerID == 5){ // MARKER IS PLANET
+                    loadTextures(5, "planet_mercury_texture.jpg"); // SET FIRST TEXTURE
+                    switchTexturesLive();
+                }
+                else{
+                    loadTextures(markerID, null);
+                }
             }
 
             @Override
@@ -190,52 +217,60 @@ public class ImageTargets extends Activity implements ApplicationControl,
         });
     }
 
-    private void restartActivity(){
+    private void switchTexturesLive() {
+        Toast.makeText(this, "Hint: tap the screen to change planet", Toast.LENGTH_LONG).show();
+        RelativeLayout camera_overlay = findViewById(R.id.camera_overlay_layout);
+        camera_overlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (click_mediaPlayer.isPlaying()) {
+                    click_mediaPlayer.seekTo(0);
+                }
+                click_mediaPlayer.start();
+                vibe.vibrate(vibeLength);
 
-        //initApplicationAR();
-
-
+                mTextures.set(0, Texture.loadTextureFromApk(textures[index],
+                        getAssets()));
+                // Run initRendering on the GL Thread
+                mGlView.queueEvent(new Runnable() {
+                    public void run() {
+                        mRenderer.initRendering();
+                    }
+                });
+                if(index == textures.length - 1){
+                    index = 0;
+                }
+                else {
+                    index++;
+                }
+            }
+        });
 
         /*
-        try
-        {
-            vuforiaAppSession.stopAR();
-        } catch (ApplicationException e)
-        {
-            Log.e(LOGTAG, e.getString());
-        }
-
-        // Unload texture:
-        mTextures.clear();
-        mTextures = null;
-
-        vuforiaAppSession = new ApplicationSession(this);
-
-        startLoadingAnimation();
-
-        vuforiaAppSession
-                .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        //mGestureDetector = new GestureDetector(this, new GestureListener());
-
-        // Load any sample specific textures:
-        mTextures = new Vector<Texture>();
-        loadTextures();
-
-        mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
-                "droid");
-        //Intent i = new Intent(ImageTargets.this, ImageTargets.class);
-        //finish();
-        //startActivity(i);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mTextures.set(0, Texture.loadTextureFromApk(textures[index],
+                        getAssets()));
+                // Run initRendering on the GL Thread
+                mGlView.queueEvent(new Runnable() {
+                    public void run() {
+                        mRenderer.initRendering();
+                    }
+                });
+                if(index == textures.length - 1){
+                    index = 0;
+                }
+                else {
+                    index++;
+                }
+                switchTexturesLive();
+            }
+        }, 2000);
         */
-
-        Intent i = new Intent(ImageTargets.this, MainActivity.class);
-        i.putExtra("restartAR", true);
-        finish();
-        startActivity(i);
-
     }
-    
+
     // Process Single Tap event to trigger autofocus
     private class GestureListener extends
         GestureDetector.SimpleOnGestureListener
@@ -284,38 +319,45 @@ public class ImageTargets extends Activity implements ApplicationControl,
     // We want to load specific textures from the APK, which we will later use
     // for rendering.
     
-    private void loadTextures()
+    private void loadTextures(int markerID, String fn)
     {
-        //mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
-        //    getAssets()));
-        //mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
-        //    getAssets()));
-        //mTextures.add(Texture.loadTextureFromApk("TextureTeapotRed.png",
-        //    getAssets()));
-        //mTextures.add(Texture.loadTextureFromApk("ImageTargets/Buildings.jpeg",
-        //    getAssets()));
-
-        mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("mars_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("jupiter_texture.png",
-                getAssets()));
+        String fileName = "";
+        Log.d("markerID", "" + markerID);
+        switch(markerID){
+            case 0:
+                // SHOWING NOTHING
+                break;
+            case 1:
+                fileName = "moonbase_texture.jpg";
+                break;
+            case 2:
+                // SHOWING IMG INSTEAD OF AR
+                break;
+            case 3:
+                fileName = "balloon_texture.jpg";
+                break;
+            case 4:
+                fileName = "textbook_texture.png";
+                break;
+            case 5:
+                fileName = fn; // SHOW ARRAY OF TEXTURES OF PLANETS
+                break;
+            case 6:
+                // SHOWING IMG INSTEAD OF AR
+                break;
+            case 7:
+                // SHOWING IMG INSTEAD OF AR
+                break;
+        }
+        if(mTextures != null){
+            mTextures.add(Texture.loadTextureFromApk(fileName,
+                    getAssets()));
+        }
+        else{
+            finish();
+        }
     }
-    
-    
+
     // Called when the activity will start interacting with the user.
     @Override
     protected void onResume()
@@ -333,8 +375,8 @@ public class ImageTargets extends Activity implements ApplicationControl,
         }
 
         vuforiaAppSession.onResume();
+        vuforiaAppSession.onResume();
     }
-    
     
     // Callback for configuration changes the activity handles itself
     @Override
@@ -393,12 +435,13 @@ public class ImageTargets extends Activity implements ApplicationControl,
         }
 
         // Unload texture:
-        mTextures.clear();
-        mTextures = null;
+        if(mTextures != null) {
+            mTextures.clear();
+            mTextures = null;
+        }
         
         System.gc();
     }
-    
     
     // Initializes AR application components.
     private void initApplicationAR()
@@ -960,6 +1003,6 @@ public class ImageTargets extends Activity implements ApplicationControl,
     
     private void showToast(String text)
     {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

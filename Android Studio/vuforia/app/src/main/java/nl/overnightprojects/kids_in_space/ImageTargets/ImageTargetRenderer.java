@@ -10,22 +10,15 @@ countries.
 package nl.overnightprojects.kids_in_space.ImageTargets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.vuforia.Device;
 import com.vuforia.Matrix44F;
@@ -35,15 +28,16 @@ import com.vuforia.Trackable;
 import com.vuforia.TrackableResult;
 import com.vuforia.Vuforia;
 
-import nl.overnightprojects.kids_in_space.Objects.Box;
-import nl.overnightprojects.kids_in_space.Objects.Teapot;
+import nl.overnightprojects.kids_in_space.Objects.Balloon;
+import nl.overnightprojects.kids_in_space.Objects.Moonbase;
+import nl.overnightprojects.kids_in_space.Objects.Planet;
+import nl.overnightprojects.kids_in_space.Objects.Textbook;
 import nl.overnightprojects.kids_in_space.Utils.AppRenderer;
 import nl.overnightprojects.kids_in_space.Utils.AppRendererControl;
 import nl.overnightprojects.kids_in_space.Utils.Application3DModel;
 import nl.overnightprojects.kids_in_space.Utils.ApplicationSession;
 import nl.overnightprojects.kids_in_space.Utils.CubeShaders;
 import nl.overnightprojects.kids_in_space.Utils.LoadingDialogHandler;
-import nl.overnightprojects.kids_in_space.Utils.MeshObject;
 import nl.overnightprojects.kids_in_space.Utils.Texture;
 import nl.overnightprojects.kids_in_space.Utils.Utils;
 
@@ -65,10 +59,12 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
     private int textureCoordHandle;
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
-    
-    private Box mBox;
-    private Teapot mTeapot;
-    
+
+    private Moonbase mMoonbase;
+    private Balloon mBalloon;
+    private Textbook mTextbook;
+    private Planet mPlanet;
+
     private float kBuildingScale = 0.012f;
     private Application3DModel mBuildingsModel;
 
@@ -139,7 +135,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
     
     
     // Function for initializing the renderer.
-    private void initRendering()
+    public void initRendering()
     {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
                 : 1.0f);
@@ -170,13 +166,35 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
             "texSampler2D");
 
+        // SWITCH CASE ACCORDING TO MARKER ID IN DATABASE. COMMENTED IS NOT USED: IMAGE SHOWN INSTEAD IN IMAGEACTIVITY
         if(!mModelIsLoaded) {
             Log.d("!mModelIsLoaded", "" + markerID);
-            if(markerID == 0){
-                mTeapot = new Teapot();
-            }
-            else{
-                mBox = new Box();
+
+            switch (markerID){
+                case 0:
+                    //
+                    break;
+                case 1:
+                    mMoonbase = new Moonbase();
+                    break;
+                case 2:
+                    //
+                    break;
+                case 3:
+                    mBalloon = new Balloon();
+                    break;
+                case 4:
+                    mTextbook = new Textbook();
+                    break;
+                case 5:
+                    mPlanet = new Planet();
+                    break;
+                case 6:
+                    //
+                    break;
+                case 7:
+                    //
+                    break;
             }
 
             try {
@@ -224,11 +242,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
                     .convertPose2GLMatrix(result.getPose());
             float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
 
+            // NO NEED TO TOUCH THIS - I WROTE IT MATTERS IN THE PROJECT REPORT, BUT IT DOESN'T
             int textureIndex = trackable.getName().equalsIgnoreCase("marker001") ? 0
                     : 1;
-            textureIndex = trackable.getName().equalsIgnoreCase("marker002") ? 2
-                    : textureIndex;
 
+            // NO NEED TO USE THIS. MAYBE YOU CAN DELETE IT?
             // deal with the modelview and projection matrices
             float[] modelViewProjection = new float[16];
 
@@ -242,24 +260,66 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
                 Matrix.scaleM(modelViewMatrix, 0, kBuildingScale,
                         kBuildingScale, kBuildingScale);
             }
+
+            // USE THIS (Z VALUE) TO FLOAT YOUR OBJECT
+            // USE X AND Y TO POSITION ON MARKER
+            Matrix.translateM(modelViewMatrix, 0, 40.0f, -30.0f,
+                    50.0f);
+
+            // USE THIS TO ROTATE. HAVE TO SEARCH ON HOW TO ROTATE WITH ANGLE, X, Y, Z: IT'S NOT JUST DEGREES
+            // ROTATING ALSO MESSES UP THE POSITION ABOVE
+            Matrix.rotateM(modelViewMatrix, 0, 90.0f, 90.0f, 70.0f, 90.0f);
+
+            // IF MARKERID == MOONBASE || BALLOON: BECAUSE NO NEED TO SHOW ROTATED THAT MUCH
+            // STILL NEEDS ROTATION, BECAUSE EXPORT FROM BLENDER TO .H VUFORIA IS ROTATED IN WRONG DIRECTION
+            if(markerID == 1 || markerID == 3) {
+                Matrix.translateM(modelViewMatrix, 0, 0.0f, 40.0f,
+                        -20.0f);
+                Matrix.rotateM(modelViewMatrix, 0, 30.0f, 10.0f, 10.0f, 10.0f);
+            }
             Matrix.multiplyMM(modelViewProjection, 0, projectionMatrix, 0, modelViewMatrix, 0);
 
             // activate the shader program and bind the vertex/normal/tex coords
             GLES20.glUseProgram(shaderProgramID);
 
+            // ONLY THE PARTS WHERE AN AR OBJECTS IS BEEN SHOWN ACCORDING TO THE DATABASE MARKER ID. REST IS COMMENTED OUT: NOT GONNA BE USED
             if (!mActivity.isExtendedTrackingActive()) {
-                switch(markerID){
+                switch(markerID) {
                     case 0:
-                        GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                                false, 0, mTeapot.getVertices());
-                        GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                                GLES20.GL_FLOAT, false, 0, mTeapot.getTexCoords());
+                        //
                         break;
                     case 1:
                         GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                                false, 0, mBox.getVertices());
+                                false, 0, mMoonbase.getVertices());
                         GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                                GLES20.GL_FLOAT, false, 0, mBox.getTexCoords());
+                                GLES20.GL_FLOAT, false, 0, mMoonbase.getTexCoords());
+                        break;
+                    case 2:
+                        //
+                        break;
+                    case 3:
+                        GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                                false, 0, mBalloon.getVertices());
+                        GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                                GLES20.GL_FLOAT, false, 0, mBalloon.getTexCoords());
+                        break;
+                    case 4:
+                        GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                                false, 0, mTextbook.getVertices());
+                        GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                                GLES20.GL_FLOAT, false, 0, mTextbook.getTexCoords());
+                        break;
+                    case 5:
+                        GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                                false, 0, mPlanet.getVertices());
+                        GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                                GLES20.GL_FLOAT, false, 0, mPlanet.getTexCoords());
+                        break;
+                    case 6:
+                        //
+                        break;
+                    case 7:
+                        //
                         break;
                 }
 
@@ -276,17 +336,40 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, AppRendererC
                 GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
                         modelViewProjection, 0);
 
+                // SAME HERE FOR SWITCH CASE ACCORDING TO MARKERID
                 // finally draw the object
                 switch(markerID){
                     case 0:
-                        GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-                                mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-                                mTeapot.getIndices());
+                        //
                         break;
                     case 1:
                         GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-                                mBox.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-                                mBox.getIndices());
+                                mMoonbase.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                                mMoonbase.getIndices());
+                        break;
+                    case 2:
+                        //
+                        break;
+                    case 3:
+                        GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+                                mBalloon.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                                mBalloon.getIndices());
+                        break;
+                    case 4:
+                        GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+                                mTextbook.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                                mTextbook.getIndices());
+                        break;
+                    case 5:
+                        GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+                                mPlanet.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                                mPlanet.getIndices());
+                        break;
+                    case 6:
+                        //
+                        break;
+                    case 7:
+                        //
                         break;
                 }
 

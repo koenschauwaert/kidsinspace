@@ -2,9 +2,12 @@
 <resources>
     <color name="colorPrimary">#041D2E</color>
     <color name="colorPrimaryDark">#041D2E</color>
-    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorAccent">#491792</color>
 
     <color name="white">#FFFFFF</color>
     <color name="white_transparent">#88FFFFFF</color>
     <color name="yellow">#f7f77b</color>
+    <color name="black">#000000</color>
+    <color name="background_ellion">#6183AC</color>
+    <color name="background_rocket">#6EA2D1</color>
 </resources>

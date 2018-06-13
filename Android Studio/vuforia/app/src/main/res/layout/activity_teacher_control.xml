@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".TeacherControlActivity">
+
+    <include layout="@layout/fog_background_no_parallax"
+        android:id="@+id/i_fog_background_no_parallax"/>
+
+    <include layout="@layout/planets_background_still"
+        android:id="@+id/i_planets_background_still"/>
+
+    <include layout="@layout/satellite_background_no_parallax"
+        android:id="@+id/i_satellite_background_no_parallax"/>
+
+    <include layout="@layout/asteroids_background_no_parallax"
+        android:id="@+id/i_asteroids_background_no_parallax"/>
+
+    <TextView
+        android:id="@+id/tv_teacher_control_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/controlTeacherActivityTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ll_sub_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/ll_sub_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_teacher_control_title"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tv_room_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_small"
+            android:layout_margin="@dimen/margin_normal"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="CODE: 12345" />
+
+        <TextView
+            android:id="@+id/tv_current_marker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_small"
+            android:layout_margin="@dimen/margin_normal"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="ID: 1" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_marker_00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        app:layout_constraintTop_toBottomOf="@id/ll_sub_title"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_marker_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        app:layout_constraintTop_toBottomOf="@id/btn_marker_00"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_marker_02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        app:layout_constraintTop_toBottomOf="@id/btn_marker_01"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_marker_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        app:layout_constraintTop_toBottomOf="@id/btn_marker_02"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_marker_04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        app:layout_constraintTop_toBottomOf="@id/btn_marker_03"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_marker_05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        app:layout_constraintTop_toBottomOf="@id/btn_marker_04"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_marker_06"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        app:layout_constraintTop_toBottomOf="@id/btn_marker_05"
+        app:layout_constraintBottom_toTopOf="@id/btn_marker_07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_marker_07"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal"
+        android:textSize="16dp"
+        android:background="@drawable/buttonsmall"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:layout_constraintTop_toBottomOf="@id/btn_marker_06"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
