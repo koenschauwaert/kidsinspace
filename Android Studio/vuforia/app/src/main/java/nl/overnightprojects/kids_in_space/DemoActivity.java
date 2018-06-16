@@ -61,10 +61,14 @@ public class DemoActivity extends AppCompatActivity {
 
         demo_title = findViewById(R.id.tv_demo_title);
         demo_subtitle = findViewById(R.id.tv_demo_subtitle);
+        demo_get_marker = findViewById(R.id.btn_demo_get_marker);
+        demo_start = findViewById(R.id.btn_demo_start);
 
         Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/ralewayblack.ttf");
         demo_title.setTypeface(custom_font);
         demo_subtitle.setTypeface(custom_font);
+        demo_get_marker.setTypeface(custom_font);
+        demo_start.setTypeface(custom_font);
 
         fadeInAllPlanetsAndButtons();
 
@@ -72,7 +76,6 @@ public class DemoActivity extends AppCompatActivity {
         classToLaunch = classToLaunchPackage + "."
                 + "ImageTargets.ImageTargets";
 
-        demo_get_marker = findViewById(R.id.btn_demo_get_marker);
         demo_get_marker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +83,6 @@ public class DemoActivity extends AppCompatActivity {
             }
         });
 
-        demo_start = findViewById(R.id.btn_demo_start);
         demo_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
