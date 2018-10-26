@@ -5,7 +5,7 @@ Kids in Space project by 'SPACE' team for the European Project Semester (EPS) fo
 
 # Content:
 
-[`/Android_Studio/`](Android-Studio)
+[`/Android_Studio/`]('Android Studio')
 [`/Android_Studio/`](Android Studio/)
 Contains two Android Studio projects. One in Vuforia and another one (less compatible) based on ViroCore.
 
