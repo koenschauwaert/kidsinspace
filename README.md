@@ -5,12 +5,11 @@ Kids in Space project by 'SPACE' team for the European Project Semester (EPS) fo
 
 # Content:
 
-[`/Android_Studio/`]('Android Studio')
-[`/Android_Studio/`](Android Studio/)
+Android Studio/
 Contains two Android Studio projects. One in Vuforia and another one (less compatible) based on ViroCore.
 
-[`/Media/`](Media/)
+Media/
 Contains all the media files needed for this project. Sweaters, markers, etc.
 
-[`/Tools/obj2opengl-master/`](Tools/obj2opengl-master/)
+Tools/obj2opengl-master/
 Contains the obj2opengl tool to convert .obj files to .h (C++) files which Vuforia can make use of. Please export directly to .h in Blender instead of using this tool
